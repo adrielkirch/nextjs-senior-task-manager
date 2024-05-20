@@ -112,7 +112,7 @@ const icons = {
   AccountBoxMultipleOutline
 }
 
-const Icons = () => {
+const Overview = () => {
   const renderIconGrids = () => {
     return Object.keys(icons).map(key => {
       const IconTag = icons[key as keyof typeof icons]
@@ -161,4 +161,4 @@ const Icons = () => {
   )
 }
 
-export default Icons
+export default Overview
