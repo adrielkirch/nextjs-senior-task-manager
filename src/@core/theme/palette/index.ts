@@ -35,11 +35,11 @@ const DefaultPalette = (mode: PaletteMode, themeColor: ThemeColor) => {
       white: '#FFF'
     },
     mode: mode,
-    primary: {
-      light: '#9E69FD',
-      main: '#9155FD',
-      dark: '#804BDF',
-      contrastText: '#FFF'
+    "primary": {
+      "light": "#66BB6A",
+      "main": "#4CAF50",
+      "dark": "#388E3C",
+      "contrastText": "#FFF"
     },
     secondary: {
       light: '#9C9FA4',
@@ -94,8 +94,8 @@ const DefaultPalette = (mode: PaletteMode, themeColor: ThemeColor) => {
     },
     divider: `rgba(${mainColor}, 0.12)`,
     background: {
-      paper: mode === 'light' ? '#FFF' : '#312D4B',
-      default: mode === 'light' ? '#F4F5FA' : '#28243D'
+      paper: mode === 'light' ? '#FFF' : '#2f2f2f',
+      default: mode === 'light' ? '#F4F5FA' : '#202020'
     },
     action: {
       active: `rgba(${mainColor}, 0.54)`,

@@ -161,9 +161,9 @@ const TabSecurity = () => {
             item
             sm={6}
             xs={12}
-            sx={{ display: 'flex', marginTop: [7.5, 2.5], alignItems: 'center', justifyContent: 'center' }}
+            sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           >
-            <img width={183} alt='avatar' height={256} src='/images/pages/pose-m-1.png' />
+            <img  alt='avatar' height={320} width={320} src='/images/pages/pose-m-1.png' />
           </Grid>
         </Grid>
       </CardContent>
