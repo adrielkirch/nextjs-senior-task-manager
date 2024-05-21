@@ -28,7 +28,7 @@ export class CreateRequestUserDto {
 }
 
 export class UpdateRequestUserDto {
-  id: string;
+  id?: string;
   name?: string;
   surname?: string;
   role?: string;

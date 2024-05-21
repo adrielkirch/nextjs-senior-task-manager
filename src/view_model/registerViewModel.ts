@@ -1,6 +1,7 @@
 import { MouseEvent, useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
 import register from 'src/requests/user/register.user.request';
+import { AlertProps } from 'src/layouts/components/alert/Alert';
 
 export interface RegisterViewModelProps {
   isAuthenticated: boolean;
@@ -20,6 +21,8 @@ export interface RegisterViewModelProps {
   handleSurnameChange: (value: string) => void;
   handlePhoneChange: (value: string) => void;
   setRole: (value: string) => void;
+  alert: AlertProps;
+  changeAlertVisibility: (visible: boolean)=> void;
 }
 
 export const useDataViewModel = (): RegisterViewModelProps => {
@@ -31,9 +34,22 @@ export const useDataViewModel = (): RegisterViewModelProps => {
   const [phone, setPhone] = useState<string>('');
   const [role, setRole] = useState<string>('admin');
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
+  const [alert, setAlert] = useState<AlertProps>({
+    severity: 'error',
+    onClose: () => changeAlertVisibility(false),
+    text: '',
+    visible: false,
+  })
+
 
   const router = useRouter();
 
+  const changeAlertVisibility = (visible: boolean) => {
+    setAlert({
+      ...alert,
+      visible: visible,
+    })
+  }
   const handleClickShowPassword = () => {
     setIsShowPassword(!isShowPassword);
   }
@@ -72,7 +88,9 @@ export const useDataViewModel = (): RegisterViewModelProps => {
 
   const handleRegister = async () => {
     try {
-      await register({
+      changeAlertVisibility(false)
+
+      const data = await register({
         name,
         surname,
         email,
@@ -80,10 +98,18 @@ export const useDataViewModel = (): RegisterViewModelProps => {
         phone,
         role
       });
+      if (!data) return
+
 
       router.push('/login');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Register failed top:', JSON.stringify(error));
+      setAlert({
+        ...alert,
+        text: error.message,
+        severity: 'error',
+        visible: true,
+      })
     }
 
   };
@@ -109,6 +135,8 @@ export const useDataViewModel = (): RegisterViewModelProps => {
     handleNameChange,
     handleSurnameChange,
     handlePhoneChange,
-    setRole
+    setRole,
+    alert,
+    changeAlertVisibility
   };
 };

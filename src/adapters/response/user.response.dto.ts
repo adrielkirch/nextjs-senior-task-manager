@@ -12,5 +12,14 @@ export class UserResponseDto {
     public updatedAt: Date,
     public role: string,
     public phone: string
-  ) {}
+  ) {
+    this.id = id;
+    this.name = name;
+    this.surname = surname;
+    this.email = email;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+    this.role = role;
+    this.phone = phone;
+  }
 }

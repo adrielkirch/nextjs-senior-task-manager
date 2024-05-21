@@ -113,9 +113,7 @@ const TabInfo = () => {
             <Button variant='contained' sx={{ marginRight: 3.5 }}>
               Save Changes
             </Button>
-            <Button type='reset' variant='outlined' color='secondary' onClick={() => setDate(null)}>
-              Reset
-            </Button>
+
           </Grid>
         </Grid>
       </form>

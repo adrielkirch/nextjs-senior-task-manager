@@ -18,6 +18,8 @@ class ApiClient {
   }
 
   private async request<T>(config: AxiosRequestConfig): Promise<T> {
+    this.setToken(localStorage.getItem('token'))
+
     if (this.token) {
       config.headers = {
         Authorization: `Bearer ${this.token}`,

@@ -206,14 +206,7 @@ const TabSecurity = () => {
           <Button variant='contained' sx={{ marginRight: 3.5 }}>
             Save Changes
           </Button>
-          <Button
-            type='reset'
-            variant='outlined'
-            color='secondary'
-            onClick={() => setValues({ ...values, currentPassword: '', newPassword: '', confirmNewPassword: '' })}
-          >
-            Reset
-          </Button>
+
         </Box>
       </CardContent>
     </form>

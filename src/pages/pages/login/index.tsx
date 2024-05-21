@@ -40,6 +40,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Demo Imports
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
 import { useDataViewModel } from 'src/view_model/loginViewModel'
+import DefaultAlert from 'src/layouts/components/alert/Alert'
 
 // ** Styled Components
 const Card = styled(MuiCard)<CardProps>(({ theme }) => ({
@@ -63,7 +64,6 @@ const LoginPage = () => {
   const viewModel = useDataViewModel()
   console.log(viewModel)
 
-
   return (
     <Box className='content-center'>
       <Card sx={{ zIndex: 1 }}>
@@ -82,6 +82,15 @@ const LoginPage = () => {
             >
               {themeConfig.templateName}
             </Typography>
+          </Box>
+
+          <Box sx={{ mb: 6 }}>
+          <DefaultAlert
+            severity={viewModel.alert.severity}
+            onClose={() => viewModel.changeAlertVisibility(false)}
+            text={viewModel.alert.text}
+            visible={viewModel.alert.visible}
+          />
           </Box>
           <Box sx={{ mb: 6 }}>
             <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>

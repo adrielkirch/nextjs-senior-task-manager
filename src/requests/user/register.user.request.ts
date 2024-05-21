@@ -10,6 +10,7 @@ const register = async (payload: CreateRequestUserDto) => {
     return await apiClient.post<UserResponseDto>(`${apiConstants.baseUrl}/users/signup`, payload);
   } catch (error) {
     console.error('Register failed:', error);
+    throw error;
   }
 };
 

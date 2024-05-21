@@ -11,7 +11,7 @@ const login = async (payload: LoginRequestDto) => {
 
     return await apiClient.post<LoginResponseDto>(url, payload);
   } catch (error) {
-    console.error('Login failed:', error);
+    throw error;
   }
 };
 
