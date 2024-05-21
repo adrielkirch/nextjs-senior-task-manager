@@ -38,6 +38,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
+import { useDataViewModel } from 'src/view_model/loginViewModel'
 
 interface State {
   password: string
@@ -63,6 +64,10 @@ const FormControlLabel = styled(MuiFormControlLabel)<FormControlLabelProps>(({ t
 }))
 
 const LoginPage = () => {
+
+  const viewModel = useDataViewModel();
+  console.log(viewModel)
+
   // ** State
   const [values, setValues] = useState<State>({
     password: '',
