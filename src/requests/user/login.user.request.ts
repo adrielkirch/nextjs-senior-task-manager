@@ -1,17 +1,15 @@
 import ApiClient from "../httpClient";
 import apiConstants from "../../constants/api.constants";
+import { LoginRequestDto } from "src/adapters/request/user.request.dto";
+import { LoginResponseDto } from "src/adapters/response/user.response.dto";
 
-const login = async (email: string, password: string) => {
+const login = async (payload: LoginRequestDto) => {
   const apiClient = ApiClient.getInstance();
-  console.log(email,' ',password);
+
   try {
     const url = `${apiConstants.baseUrl}/users/login`;
-    const response = await apiClient.post<any>(url, { email, password });
-    console.log(response.data)
-    alert(response.data.token)
-    localStorage.setItem('token', response.data.token);
 
-    return response.data;
+    return await apiClient.post<LoginResponseDto>(url, payload);
   } catch (error) {
     console.error('Login failed:', error);
   }

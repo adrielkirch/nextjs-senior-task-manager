@@ -1,14 +1,13 @@
 import ApiClient from "../httpClient";
-import baseUrl from "../../constants/api.constants";
+import apiConstants from "../../constants/api.constants";
+import { CreateRequestUserDto } from "src/adapters/request/user.request.dto";
+import { UserResponseDto } from "src/adapters/response/user.response.dto";
 
-const register = async (email: string, password: string) => {
+const register = async (payload: CreateRequestUserDto) => {
   const apiClient = ApiClient.getInstance();
 
   try {
-    const response = await apiClient.post<any>(`${baseUrl}/users/signup`, { email, password });
-
-
-    return response.data;
+    return await apiClient.post<UserResponseDto>(`${apiConstants.baseUrl}/users/signup`, payload);
   } catch (error) {
     console.error('Register failed:', error);
   }
