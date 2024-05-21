@@ -7,14 +7,14 @@ import { CreateRequestUserDto } from 'src/adapters/request/user.request.dto';
 export interface RegisterViewModelProps {
   isAuthenticated: boolean;
   isShowPassword: boolean;
-  handleClickShowPassword:() => void;
+  handleClickShowPassword: () => void;
   setIsShowPassword: (value: boolean) => void;
   checkAuthentication: () => void;
   handleRegister: () => void;
   handleMouseDownPassword: (event: MouseEvent<HTMLButtonElement>) => void;
   alert: AlertProps;
-  changeAlertVisibility: (visible: boolean)=> void;
-  registerData:CreateRequestUserDto;
+  changeAlertVisibility: (visible: boolean) => void;
+  registerData: CreateRequestUserDto;
   setRegisterData: (value: CreateRequestUserDto) => void;
 }
 
