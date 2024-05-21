@@ -3,7 +3,8 @@ import { ChangeEvent, MouseEvent, ReactNode, useState } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
-import { useRouter } from 'next/router'
+
+// import { useRouter } from 'next/router'
 
 // ** MUI Components
 import Box from '@mui/material/Box'
@@ -76,7 +77,8 @@ const LoginPage = () => {
 
   // ** Hook
   const theme = useTheme()
-  const router = useRouter()
+
+  // const router = useRouter()
 
   const handleChange = (prop: keyof State) => (event: ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [prop]: event.target.value })
@@ -88,6 +90,11 @@ const LoginPage = () => {
 
   const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
+  }
+  const handleLogin = ()=> {
+    viewModel.setEmail("adriel.kirch.1@hotmail.com")
+    viewModel.setPassword(values.password)
+    viewModel.handleLogin()
   }
 
   return (
@@ -210,7 +217,7 @@ const LoginPage = () => {
               size='large'
               variant='contained'
               sx={{ marginBottom: 7 }}
-              onClick={() => router.push('/')}
+              onClick={handleLogin}
             >
               Login
             </Button>
