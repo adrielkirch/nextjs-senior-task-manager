@@ -82,12 +82,12 @@ const RegisterPage = () => {
             </Typography>
           </Box>
           <Box sx={{ mb: 6 }}>
-          <DefaultAlert
-            severity={viewModel.alert.severity}
-            onClose={() => viewModel.changeAlertVisibility(false)}
-            text={viewModel.alert.text}
-            visible={viewModel.alert.visible}
-          />
+            <DefaultAlert
+              severity={viewModel.alert.severity}
+              onClose={() => viewModel.changeAlertVisibility(false)}
+              text={viewModel.alert.text}
+              visible={viewModel.alert.visible}
+            />
           </Box>
           <Box sx={{ mb: 6 }}>
             <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
@@ -99,7 +99,10 @@ const RegisterPage = () => {
             <TextField
               autoFocus
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                viewModel.handleEmailChange(event.target.value)
+                viewModel.setRegisterData({
+                  ...viewModel.registerData,
+                  email: event.target.value
+                })
               }}
               fullWidth
               type='email'
@@ -108,7 +111,10 @@ const RegisterPage = () => {
             />
             <TextField
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                viewModel.handleNameChange(event.target.value)
+                viewModel.setRegisterData({
+                  ...viewModel.registerData,
+                  name: event.target.value
+                })
               }}
               fullWidth
               id='name'
@@ -117,7 +123,10 @@ const RegisterPage = () => {
             />
             <TextField
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                viewModel.handleSurnameChange(event.target.value)
+                viewModel.setRegisterData({
+                  ...viewModel.registerData,
+                  surname: event.target.value
+                })
               }}
               fullWidth
               id='surname'
@@ -126,7 +135,10 @@ const RegisterPage = () => {
             />
             <TextField
               onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                viewModel.handlePhoneChange(event.target.value)
+                viewModel.setRegisterData({
+                  ...viewModel.registerData,
+                  phone: event.target.value
+                })
               }}
               fullWidth
               type='text'
@@ -138,9 +150,11 @@ const RegisterPage = () => {
               <OutlinedInput
                 label='Password'
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  viewModel.handlePasswordChange(event.target.value)
+                  viewModel.setRegisterData({
+                    ...viewModel.registerData,
+                    password: event.target.value
+                  })
                 }}
-                value={viewModel.password}
                 id='auth-register-password'
                 type={viewModel.isShowPassword ? 'text' : 'password'}
                 endAdornment={
@@ -161,10 +175,14 @@ const RegisterPage = () => {
               <InputLabel htmlFor='auth-register-password'>Password Confirmation</InputLabel>
               <OutlinedInput
                 label='Password'
-                value={viewModel.password}
+
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  viewModel.handlePasswordChange(event.target.value)
+                  viewModel.setRegisterData({
+                    ...viewModel.registerData,
+                    password: event.target.value
+                  })
                 }}
+
                 id='auth-register-password'
                 type={viewModel.isShowPassword ? 'text' : 'password'}
                 endAdornment={

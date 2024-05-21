@@ -3,15 +3,13 @@ import { useRouter } from 'next/router';
 import login from 'src/requests/user/login.user.request';
 import me from 'src/requests/user/me.user.request';
 import { AlertProps } from 'src/layouts/components/alert/Alert';
+import { LoginRequestDto } from 'src/adapters/request/user.request.dto';
 
 export interface LoginViewModelProps {
   isAuthenticated: boolean;
   checkAuthentication: () => void;
   handleLogin: () => void;
-  email: string;
-  setEmail: (email: string) => void;
-  password: string;
-  setPassword: (password: string) => void;
+
   isShowPassword: boolean;
   setIsShowPassword: (value: boolean) => void;
   handlePasswordChange: (value: string) => void;
@@ -19,13 +17,16 @@ export interface LoginViewModelProps {
   handleMouseDownPassword: (event: MouseEvent<HTMLButtonElement>) => void;
   handleEmailChange: (value: string) => void;
   alert: AlertProps;
-  changeAlertVisibility: (visible: boolean)=> void;
+  changeAlertVisibility: (visible: boolean) => void;
+  loginData: LoginRequestDto;
 }
 
 export const useDataViewModel = (): LoginViewModelProps => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [loginData, setLoginData] = useState<LoginRequestDto>({
+    password: '',
+    email: '',
+  })
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
   const [alert, setAlert] = useState<AlertProps>({
     severity: 'error',
@@ -52,10 +53,16 @@ export const useDataViewModel = (): LoginViewModelProps => {
   }
 
   const handlePasswordChange = (value: string) => {
-    setPassword(value)
+    setLoginData({
+      ...loginData,
+      password: value
+    })
   }
   const handleEmailChange = (value: string) => {
-    setEmail(value)
+    setLoginData({
+      ...loginData,
+      email: value
+    })
   }
 
 
@@ -72,10 +79,7 @@ export const useDataViewModel = (): LoginViewModelProps => {
   const handleLogin = async () => {
     try {
       changeAlertVisibility(false)
-      const data = await login({
-        email,
-        password
-      });
+      const data = await login(loginData);
       if (data) localStorage.setItem('token', data.token)
       else return
 
@@ -91,7 +95,7 @@ export const useDataViewModel = (): LoginViewModelProps => {
         ...alert,
         text: error.message,
         severity: 'error',
-        visible:true,
+        visible: true,
       })
     }
   };
@@ -113,10 +117,6 @@ export const useDataViewModel = (): LoginViewModelProps => {
     isAuthenticated,
     checkAuthentication,
     handleLogin,
-    email,
-    setEmail,
-    password,
-    setPassword,
     isShowPassword,
     setIsShowPassword,
     handlePasswordChange,
@@ -124,6 +124,7 @@ export const useDataViewModel = (): LoginViewModelProps => {
     handleMouseDownPassword,
     handleEmailChange,
     alert,
-    changeAlertVisibility
+    changeAlertVisibility,
+    loginData
   };
 };

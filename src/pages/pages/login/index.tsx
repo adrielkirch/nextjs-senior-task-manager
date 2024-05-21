@@ -107,13 +107,14 @@ const LoginPage = () => {
               fullWidth
               id='email'
               label='Email'
+
               sx={{ marginBottom: 4 }}
             />
             <FormControl fullWidth>
               <InputLabel htmlFor='auth-login-password'>Password</InputLabel>
               <OutlinedInput
                 label='Password'
-                value={viewModel.password}
+                value={viewModel.loginData.password}
                 id='auth-login-password'
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                   viewModel.handlePasswordChange(event.target.value)
@@ -142,7 +143,7 @@ const LoginPage = () => {
               </Link>
             </Box>
             <Button
-              disabled={!viewModel.password || !viewModel.email}
+              disabled={!viewModel.loginData.password || !viewModel.loginData.email}
               fullWidth
               size='large'
               variant='contained'
