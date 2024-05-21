@@ -22,7 +22,14 @@ import WeeklyOverview from 'src/views/dashboard/WeeklyOverview'
 import DepositWithdraw from 'src/views/dashboard/DepositWithdraw'
 import SalesByCountries from 'src/views/dashboard/SalesByCountries'
 
+// ** View Model
+
+import { useDataViewModel } from 'src/view_model/taskManagerViewModel'
+
 const Dashboard = () => {
+  const viewModel = useDataViewModel();
+  console.log(viewModel)
+
   return (
     <ApexChartWrapper>
       <Grid container spacing={6}>

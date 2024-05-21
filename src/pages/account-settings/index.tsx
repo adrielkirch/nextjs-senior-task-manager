@@ -22,6 +22,7 @@ import TabSecurity from 'src/views/account-settings/TabSecurity'
 
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
+import { useDataViewModel } from 'src/view_model/accountSettingsViewModel'
 
 const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
@@ -44,6 +45,8 @@ const TabName = styled('span')(({ theme }) => ({
 const AccountSettings = () => {
   // ** State
   const [value, setValue] = useState<string>('account')
+  const viewModel = useDataViewModel();
+  console.log(viewModel)
 
   const handleChange = (event: SyntheticEvent, newValue: string) => {
     setValue(newValue)

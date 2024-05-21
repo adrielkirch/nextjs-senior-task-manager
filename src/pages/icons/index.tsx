@@ -61,6 +61,10 @@ import AccountArrowLeftOutline from 'mdi-material-ui/AccountArrowLeftOutline'
 import AccountArrowRightOutline from 'mdi-material-ui/AccountArrowRightOutline'
 import AccountBoxMultipleOutline from 'mdi-material-ui/AccountBoxMultipleOutline'
 
+// ** View Model
+
+import { useDataViewModel } from 'src/view_model/iconsViewModel'
+
 const icons = {
   Abacus,
   Account,
@@ -113,6 +117,9 @@ const icons = {
 }
 
 const Overview = () => {
+  const viewModel = useDataViewModel();
+  console.log(viewModel)
+
   const renderIconGrids = () => {
     return Object.keys(icons).map(key => {
       const IconTag = icons[key as keyof typeof icons]

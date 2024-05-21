@@ -5,6 +5,9 @@ import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 
+// ** View Model
+import { useDataViewModel } from 'src/view_model/tablesViewModel'
+
 // ** Demo Components Imports
 import TableBasic from 'src/views/tables/TableBasic'
 import TableDense from 'src/views/tables/TableDense'
@@ -13,7 +16,11 @@ import TableCustomized from 'src/views/tables/TableCustomized'
 import TableCollapsible from 'src/views/tables/TableCollapsible'
 import TableStickyHeader from 'src/views/tables/TableStickyHeader'
 
+
 const MUITable = () => {
+  const viewModel = useDataViewModel();
+  console.log(viewModel)
+
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>

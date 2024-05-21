@@ -30,15 +30,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/account-settings": [
+    "/pages/login": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/account-settings.js"
+      "static/chunks/pages/pages/login.js"
     ],
-    "/overview": [
+    "/pages/register": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/overview.js"
+      "static/chunks/pages/pages/register.js"
     ]
   },
   "ampFirstPages": []

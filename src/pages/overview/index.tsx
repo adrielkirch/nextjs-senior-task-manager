@@ -1,6 +1,9 @@
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 
+// **View model
+import { useDataViewModel } from 'src/view_model/overviewViewModel';
+
 // ** Icons Imports
 import Poll from 'mdi-material-ui/Poll'
 import CurrencyUsd from 'mdi-material-ui/CurrencyUsd'
@@ -23,6 +26,9 @@ import DepositWithdraw from 'src/views/dashboard/DepositWithdraw'
 import SalesByCountries from 'src/views/dashboard/SalesByCountries'
 
 const Dashboard = () => {
+  const viewModel = useDataViewModel();
+  console.log(viewModel)
+
   return (
     <ApexChartWrapper>
       <Grid container spacing={6}>

@@ -12,8 +12,12 @@ import FormLayoutsAlignment from 'src/views/form-layouts/FormLayoutsAlignment'
 
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
+import { useDataViewModel } from 'src/view_model/formLayoutViewModel'
 
 const FormLayouts = () => {
+  const viewModel = useDataViewModel();
+  console.log(viewModel)
+
   return (
     <DatePickerWrapper>
       <Grid container spacing={6}>

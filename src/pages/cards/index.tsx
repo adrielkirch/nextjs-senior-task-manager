@@ -18,8 +18,12 @@ import CardWithCollapse from 'src/views/cards/CardWithCollapse'
 import CardVerticalRatings from 'src/views/cards/CardVerticalRatings'
 import CardNavigationCenter from 'src/views/cards/CardNavigationCenter'
 import CardHorizontalRatings from 'src/views/cards/CardHorizontalRatings'
+import { useDataViewModel } from 'src/view_model/cardsViewModel'
 
 const CardBasic = () => {
+  const viewModel = useDataViewModel();
+  console.log(viewModel)
+
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} sx={{ paddingBottom: 4 }}>
