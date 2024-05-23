@@ -9,13 +9,10 @@ import InputLabel from '@mui/material/InputLabel'
 import CardContent from '@mui/material/CardContent'
 import FormControl from '@mui/material/FormControl'
 
-
 // ** Icons Imports
 import { useDataViewModel } from 'src/view_model/tabAccountViewModel'
 import DefaultAlert from 'src/layouts/components/alert/Alert'
 import { Button } from '@mui/material'
-
-
 
 const TabAccount = () => {
   // ** State
@@ -25,9 +22,7 @@ const TabAccount = () => {
   return (
     <CardContent>
       <form>
-        <Grid container spacing={7}  sx={{ marginTop: 4.8, marginBottom: 3 }}>
-
-
+        <Grid container spacing={7} sx={{ marginTop: 4.8, marginBottom: 3 }}>
           <Grid item xs={12} sm={6}>
             <TextField
               fullWidth
@@ -89,19 +84,19 @@ const TabAccount = () => {
               }}
             />
           </Grid>
-
-          <DefaultAlert
-            severity={viewModel.alert.severity}
-            onClose={() => viewModel.changeAlertVisibility(false)}
-            text={viewModel.alert.text}
-            visible={viewModel.alert.visible}
-          />
+          <Grid item xs={12}>
+            <DefaultAlert
+              severity={viewModel.alert.severity}
+              onClose={() => viewModel.changeAlertVisibility(false)}
+              text={viewModel.alert.text}
+              visible={viewModel.alert.visible}
+            />
+          </Grid>
 
           <Grid item xs={12}>
             <Button onClick={viewModel.handleUpdate} variant='contained' sx={{ marginRight: 3.5 }}>
               Save Changes
             </Button>
-
           </Grid>
         </Grid>
       </form>

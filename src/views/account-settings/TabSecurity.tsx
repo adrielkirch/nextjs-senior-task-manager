@@ -155,13 +155,14 @@ const TabSecurity = () => {
             </Typography>
           </Box>
         </Box>
-
-        <DefaultAlert
-          severity={viewModel.alert.severity}
-          onClose={() => viewModel.changeAlertVisibility(false)}
-          text={viewModel.alert.text}
-          visible={viewModel.alert.visible}
-        />
+        <Grid item xs={12}>
+          <DefaultAlert
+            severity={viewModel.alert.severity}
+            onClose={() => viewModel.changeAlertVisibility(false)}
+            text={viewModel.alert.text}
+            visible={viewModel.alert.visible}
+          />{' '}
+        </Grid>
 
         <Box sx={{ mt: 11 }}>
           <Button onClick={viewModel.handleUpdate} variant='contained' sx={{ marginRight: 3.5 }}>
