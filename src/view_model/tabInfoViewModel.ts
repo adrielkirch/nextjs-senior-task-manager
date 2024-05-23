@@ -20,14 +20,13 @@ export interface InfoTabViewModelProps {
   changeAlertVisibility: (visible: boolean) => void;
   handleCheckboxChange: (event: ChangeEvent<HTMLInputElement>) => void;
   handleRadioChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  selectedOptions: string[];
+
 }
 
 export const useDataViewModel = (): InfoTabViewModelProps => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
   const router = useRouter();
   const [imgSrc, setImgSrc] = useState<string>('/images/avatars/avatar.png')
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([])
 
 
   const [alert, setAlert] = useState<AlertProps>({
@@ -57,7 +56,7 @@ export const useDataViewModel = (): InfoTabViewModelProps => {
 
 
   const handleRadioChange = (event: ChangeEvent<HTMLInputElement>) => {
-    updateProfileState('gender',event.target.value)
+    updateProfileState('gender', event.target.value)
   };
 
   const onChange = (file: ChangeEvent) => {
@@ -96,9 +95,29 @@ export const useDataViewModel = (): InfoTabViewModelProps => {
   }, []);
 
   const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value
-    setSelectedOptions(prev => (event.target.checked ? [...prev, value] : prev.filter(option => option !== value)))
+    const value = event.target.value;
+
+    // Assuming profileData.notifications is an array
+    const notifications = [...profileData.notifications];
+    console.log("value ->", value);
+    console.log("notifications ->", notifications);
+
+    const valueIndex = notifications.indexOf(value);
+
+    if (valueIndex !== -1) {
+      notifications.splice(valueIndex, 1); // Remove if already exists
+    } else {
+      notifications.push(value);
+    }
+
+    setProfileData((prev) => ({
+      ...prev,
+      notifications: notifications
+    }));
+
+    console.log("updated notifications ->", notifications);
   }
+
 
   const fetchProfile = async () => {
     try {
@@ -157,7 +176,7 @@ export const useDataViewModel = (): InfoTabViewModelProps => {
     alert,
     setAlert,
     changeAlertVisibility,
-    selectedOptions,
+
     handleCheckboxChange,
     handleRadioChange,
 

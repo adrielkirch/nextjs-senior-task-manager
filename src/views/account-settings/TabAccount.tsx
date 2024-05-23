@@ -24,14 +24,7 @@ const TabAccount = () => {
       <form>
         <Grid container spacing={7} sx={{ marginTop: 4.8, marginBottom: 3 }}>
           <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              type='email'
-              label='Email'
-              disabled={true}
-              value={viewModel.userData.email}
-              defaultValue={viewModel.userData.email}
-            />
+            <TextField fullWidth type='text' label='Email' disabled={true} value={viewModel.userData.email} />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -40,7 +33,6 @@ const TabAccount = () => {
               onChange={(event: any) => {
                 viewModel.updateUserState('name', event.target.value)
               }}
-              defaultValue={viewModel.userData.name}
               value={viewModel.userData.name}
             />
           </Grid>
@@ -51,7 +43,6 @@ const TabAccount = () => {
               }}
               fullWidth
               label='Surname'
-              defaultValue={viewModel.userData.surname}
               value={viewModel.userData.surname}
             />
           </Grid>
@@ -78,7 +69,6 @@ const TabAccount = () => {
               fullWidth
               label='Phone'
               value={viewModel.userData.phone}
-              defaultValue={viewModel.userData.phone}
               onChange={(event: any) => {
                 viewModel.updateUserState('phone', event.target.value)
               }}

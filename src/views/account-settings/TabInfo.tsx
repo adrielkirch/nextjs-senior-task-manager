@@ -130,7 +130,7 @@ const TabInfo = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={viewModel.selectedOptions.includes('email')}
+                      checked={viewModel.profileData.notifications.includes('email')}
                       onChange={viewModel.handleCheckboxChange}
                       value='email'
                     />
@@ -140,7 +140,7 @@ const TabInfo = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={viewModel.selectedOptions.includes('sms')}
+                      checked={viewModel.profileData.notifications.includes('sms')}
                       onChange={viewModel.handleCheckboxChange}
                       value='sms'
                     />
@@ -150,7 +150,7 @@ const TabInfo = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={viewModel.selectedOptions.includes('notifications')}
+                    checked={viewModel.profileData.notifications.includes('notifications')}
                       onChange={viewModel.handleCheckboxChange}
                       value='notifications'
                     />
