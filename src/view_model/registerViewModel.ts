@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import register from 'src/requests/user/register.user.request';
 import { AlertProps } from 'src/layouts/components/alert/Alert';
 import { CreateRequestUserDto } from 'src/adapters/request/user.request.dto';
+import create from 'src/requests/profile/create.profile.request';
 
 export interface RegisterViewModelProps {
   isAuthenticated: boolean;
@@ -36,6 +37,7 @@ export const useDataViewModel = (): RegisterViewModelProps => {
     text: '',
     visible: false,
   })
+
 
 
   const router = useRouter();
@@ -72,9 +74,12 @@ export const useDataViewModel = (): RegisterViewModelProps => {
 
       const data = await register(registerData);
       if (!data) return
+      console.log(data)
 
 
-      router.push('/login');
+      handleCreateProfile(data.id);
+
+      router.push('/pages/login');
     } catch (error: any) {
       console.error('Register failed top:', JSON.stringify(error));
       setAlert({
@@ -82,9 +87,25 @@ export const useDataViewModel = (): RegisterViewModelProps => {
         text: error.message,
         severity: 'error',
         visible: true,
+
       })
     }
+  };
 
+  const handleCreateProfile = async (id: string) => {
+    try {
+
+      await create({
+        userId: id,
+        notifications: ["email"],
+        image: '',
+        gender: '',
+        biography: ''
+      });
+
+    } catch (error: any) {
+      console.error('Create profile failed top:', JSON.stringify(error));
+    }
   };
 
   useEffect(() => {

@@ -1,11 +1,11 @@
 // ** React Imports
-import { forwardRef, useState } from 'react'
+import { ElementType, forwardRef, useState } from 'react'
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 import Radio from '@mui/material/Radio'
 import Select from '@mui/material/Select'
-import Button from '@mui/material/Button'
+import Button, { ButtonProps } from '@mui/material/Button'
 import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 import FormLabel from '@mui/material/FormLabel'
@@ -15,16 +15,40 @@ import CardContent from '@mui/material/CardContent'
 import FormControl from '@mui/material/FormControl'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import FormControlLabel from '@mui/material/FormControlLabel'
+import { styled } from '@mui/material/styles'
 
 // ** Third Party Imports
 import DatePicker from 'react-datepicker'
 
 // ** Styled Components
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+import { Typography } from '@mui/material'
 
 const CustomInput = forwardRef((props, ref) => {
   return <TextField inputRef={ref} label='Birth Date' fullWidth {...props} />
 })
+
+const ImgStyled = styled('img')(({ theme }) => ({
+  width: 120,
+  height: 120,
+  marginRight: theme.spacing(6.25),
+  borderRadius: theme.shape.borderRadius
+}))
+const ButtonStyled = styled(Button)<ButtonProps & { component?: ElementType; htmlFor?: string }>(({ theme }) => ({
+  [theme.breakpoints.down('sm')]: {
+    width: '100%',
+    textAlign: 'center'
+  }
+}))
+const ResetButtonStyled = styled(Button)<ButtonProps>(({ theme }) => ({
+  marginLeft: theme.spacing(4.5),
+  [theme.breakpoints.down('sm')]: {
+    width: '100%',
+    marginLeft: 0,
+    textAlign: 'center',
+    marginTop: theme.spacing(4)
+  }
+}))
 
 const TabInfo = () => {
   // ** State
@@ -34,6 +58,24 @@ const TabInfo = () => {
     <CardContent>
       <form>
         <Grid container spacing={7}>
+          <Grid item xs={12}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <ImgStyled src={'/images/avatars/avatar.png'} alt='Profile Pic' />
+              <div>
+                <ButtonStyled component='label' variant='contained' htmlFor='account-settings-upload-image'>
+                  Upload New Photo
+                  <input hidden type='file' accept='image/png, image/jpeg' id='account-settings-upload-image' />
+                </ButtonStyled>
+                <ResetButtonStyled color='error' variant='outlined'>
+                  Reset
+                </ResetButtonStyled>
+                <Typography variant='body2' sx={{ marginTop: 5 }}>
+                  Allowed PNG or JPEG. Max size of 800K.
+                </Typography>
+              </div>
+            </div>
+          </Grid>
+
           <Grid item xs={12} sx={{ marginTop: 4.8 }}>
             <TextField
               fullWidth
@@ -113,7 +155,6 @@ const TabInfo = () => {
             <Button variant='contained' sx={{ marginRight: 3.5 }}>
               Save Changes
             </Button>
-
           </Grid>
         </Grid>
       </form>

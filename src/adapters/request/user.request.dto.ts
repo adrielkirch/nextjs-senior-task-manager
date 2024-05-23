@@ -44,3 +44,9 @@ export class UpdateRequestUserDto {
     this.phone = phone;
   }
 }
+
+export class UpdatePasswordRequestUserDto {
+  id?: string;
+  currentPassword?: string;
+  password?: string;
+}
