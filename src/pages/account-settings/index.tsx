@@ -9,6 +9,8 @@ import TabPanel from '@mui/lab/TabPanel'
 import TabContext from '@mui/lab/TabContext'
 import { styled } from '@mui/material/styles'
 import MuiTab, { TabProps } from '@mui/material/Tab'
+import Icon from '@mdi/react';
+import { mdiAccountMultipleOutline } from '@mdi/js';
 
 // ** Icons Imports
 import AccountOutline from 'mdi-material-ui/AccountOutline'
@@ -23,6 +25,7 @@ import TabSecurity from 'src/views/account-settings/TabSecurity'
 // ** Third Party Styles Imports
 import 'react-datepicker/dist/react-datepicker.css'
 import { useDataViewModel } from 'src/view_model/accountSettingsViewModel'
+import TabTeams from 'src/views/account-settings/TabTeams'
 
 const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
@@ -45,7 +48,7 @@ const TabName = styled('span')(({ theme }) => ({
 const AccountSettings = () => {
   // ** State
   const [value, setValue] = useState<string>('account')
-  const viewModel = useDataViewModel();
+  const viewModel = useDataViewModel()
   console.log(viewModel)
 
   const handleChange = (event: SyntheticEvent, newValue: string) => {
@@ -78,12 +81,23 @@ const AccountSettings = () => {
               </Box>
             }
           />
+
           <Tab
             value='info'
             label={
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <InformationOutline />
-                <TabName>Info</TabName>
+                <TabName>Profile</TabName>
+              </Box>
+            }
+          />
+
+          <Tab
+            value='team'
+            label={
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Icon path={mdiAccountMultipleOutline} size={1} />
+                <TabName>Team</TabName>
               </Box>
             }
           />
@@ -97,6 +111,9 @@ const AccountSettings = () => {
         </TabPanel>
         <TabPanel sx={{ p: 0 }} value='info'>
           <TabInfo />
+        </TabPanel>
+        <TabPanel sx={{ p: 0 }} value='team'>
+          <TabTeams />
         </TabPanel>
       </TabContext>
     </Card>

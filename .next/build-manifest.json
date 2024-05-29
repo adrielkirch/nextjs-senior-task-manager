@@ -29,6 +29,11 @@
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/account-settings.js"
+    ],
+    "/form-layouts": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/form-layouts.js"
     ]
   },
   "ampFirstPages": []
