@@ -1,51 +1,95 @@
 // ** React Imports
-import { forwardRef, useState } from 'react'
+import { ChangeEvent, ElementType } from 'react'
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 import Radio from '@mui/material/Radio'
-import Select from '@mui/material/Select'
-import Button from '@mui/material/Button'
-import MenuItem from '@mui/material/MenuItem'
+import Button, { ButtonProps } from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import FormLabel from '@mui/material/FormLabel'
-import InputLabel from '@mui/material/InputLabel'
 import RadioGroup from '@mui/material/RadioGroup'
 import CardContent from '@mui/material/CardContent'
 import FormControl from '@mui/material/FormControl'
-import OutlinedInput from '@mui/material/OutlinedInput'
 import FormControlLabel from '@mui/material/FormControlLabel'
+import { styled } from '@mui/material/styles'
 
 // ** Third Party Imports
-import DatePicker from 'react-datepicker'
+// import DatePicker from 'react-datepicker'
 
 // ** Styled Components
-import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+//import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
-const CustomInput = forwardRef((props, ref) => {
-  return <TextField inputRef={ref} label='Birth Date' fullWidth {...props} />
-})
+import { Checkbox, FormGroup, Typography } from '@mui/material'
+import { useDataViewModel } from 'src/view_model/tabInfoViewModel'
+import DefaultAlert from 'src/layouts/components/alert/Alert'
+
+// const CustomInput = forwardRef((props, ref) => {
+//   return <TextField inputRef={ref} label='Birth Date' fullWidth {...props} />
+// })
+
+const ImgStyled = styled('img')(({ theme }) => ({
+  width: 120,
+  height: 120,
+  marginRight: theme.spacing(6.25),
+  borderRadius: theme.shape.borderRadius
+}))
+const ButtonStyled = styled(Button)<ButtonProps & { component?: ElementType; htmlFor?: string }>(({ theme }) => ({
+  [theme.breakpoints.down('sm')]: {
+    width: '100%',
+    textAlign: 'center'
+  }
+}))
+const ResetButtonStyled = styled(Button)<ButtonProps>(({ theme }) => ({
+  marginLeft: theme.spacing(4.5),
+  [theme.breakpoints.down('sm')]: {
+    width: '100%',
+    marginLeft: 0,
+    textAlign: 'center',
+    marginTop: theme.spacing(4)
+  }
+}))
 
 const TabInfo = () => {
-  // ** State
-  const [date, setDate] = useState<Date | null | undefined>(null)
+  const viewModel = useDataViewModel()
+  console.log(viewModel)
 
   return (
     <CardContent>
       <form>
         <Grid container spacing={7}>
+          <Grid item xs={12}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <ImgStyled src={'/images/avatars/avatar.png'} alt='Profile Pic' />
+              <div>
+                <ButtonStyled component='label' variant='contained' htmlFor='account-settings-upload-image'>
+                  Upload New Photo
+                  <input hidden type='file' accept='image/png, image/jpeg' id='account-settings-upload-image' />
+                </ButtonStyled>
+                <ResetButtonStyled color='error' variant='outlined'>
+                  Reset
+                </ResetButtonStyled>
+                <Typography variant='body2' sx={{ marginTop: 5 }}>
+                  Allowed PNG or JPEG. Max size of 800K.
+                </Typography>
+              </div>
+            </div>
+          </Grid>
+
           <Grid item xs={12} sx={{ marginTop: 4.8 }}>
             <TextField
               fullWidth
               multiline
-              label='Bio'
+              label='Biography'
               minRows={2}
-              placeholder='Bio'
-              defaultValue='The name’s John Deo. I am a tireless seeker of knowledge, occasional purveyor of wisdom and also, coincidentally, a graphic designer. Algolia helps businesses across industries quickly create relevant 😎, scalable 😀, and lightning 😍 fast search and discovery experiences.'
+              placeholder='Biography'
+              value={viewModel.profileData.biography}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => {
+                viewModel.updateProfileState('biography', event.target.value)
+              }}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <DatePickerWrapper>
+          <Grid item xs={12} sm={12}>
+            {/* <DatePickerWrapper>
               <DatePicker
                 selected={date}
                 showYearDropdown
@@ -55,66 +99,78 @@ const TabInfo = () => {
                 customInput={<CustomInput />}
                 onChange={(date: Date) => setDate(date)}
               />
-            </DatePickerWrapper>
+            </DatePickerWrapper> */}
           </Grid>
+
           <Grid item xs={12} sm={6}>
-            <TextField fullWidth type='number' label='Phone' placeholder='(123) 456-7890' />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
-              label='Website'
-              placeholder='https://example.com/'
-              defaultValue='https://themeselection.com/'
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <InputLabel>Country</InputLabel>
-              <Select label='Country' defaultValue='USA'>
-                <MenuItem value='USA'>USA</MenuItem>
-                <MenuItem value='UK'>UK</MenuItem>
-                <MenuItem value='Australia'>Australia</MenuItem>
-                <MenuItem value='Germany'>Germany</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth>
-              <InputLabel id='form-layouts-separator-multiple-select-label'>Languages</InputLabel>
-              <Select
-                multiple
-                defaultValue={['English']}
-                id='account-settings-multiple-select'
-                labelId='account-settings-multiple-select-label'
-                input={<OutlinedInput label='Languages' id='select-multiple-language' />}
+            <FormControl component='fieldset'>
+              <FormLabel component='legend' sx={{ fontSize: '0.875rem' }}>
+                Gender
+              </FormLabel>
+              <RadioGroup
+                row
+                value={viewModel.profileData.gender}
+                onChange={viewModel.handleRadioChange}
+                aria-label='gender'
+                name='account-settings-info-radio'
               >
-                <MenuItem value='English'>English</MenuItem>
-                <MenuItem value='French'>French</MenuItem>
-                <MenuItem value='Spanish'>Spanish</MenuItem>
-                <MenuItem value='Portuguese'>Portuguese</MenuItem>
-                <MenuItem value='Italian'>Italian</MenuItem>
-                <MenuItem value='German'>German</MenuItem>
-                <MenuItem value='Arabic'>Arabic</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl>
-              <FormLabel sx={{ fontSize: '0.875rem' }}>Gender</FormLabel>
-              <RadioGroup row defaultValue='male' aria-label='gender' name='account-settings-info-radio'>
                 <FormControlLabel value='male' label='Male' control={<Radio />} />
                 <FormControlLabel value='female' label='Female' control={<Radio />} />
                 <FormControlLabel value='other' label='Other' control={<Radio />} />
               </RadioGroup>
             </FormControl>
           </Grid>
+
+          <Grid item xs={12} sm={6}>
+            <FormControl component='fieldset'>
+              <FormLabel component='legend' sx={{ fontSize: '0.875rem' }}>
+                Notification
+              </FormLabel>
+              <FormGroup row>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={viewModel.profileData.notifications.includes('email')}
+                      onChange={viewModel.handleCheckboxChange}
+                      value='email'
+                    />
+                  }
+                  label='Email'
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={viewModel.profileData.notifications.includes('sms')}
+                      onChange={viewModel.handleCheckboxChange}
+                      value='sms'
+                    />
+                  }
+                  label='SMS'
+                />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                    checked={viewModel.profileData.notifications.includes('notifications')}
+                      onChange={viewModel.handleCheckboxChange}
+                      value='notifications'
+                    />
+                  }
+                  label='Push Notification'
+                />
+              </FormGroup>
+            </FormControl>
+          </Grid>
           <Grid item xs={12}>
-            <Button variant='contained' sx={{ marginRight: 3.5 }}>
+            <DefaultAlert
+              severity={viewModel.alert.severity}
+              onClose={() => viewModel.changeAlertVisibility(false)}
+              text={viewModel.alert.text}
+              visible={viewModel.alert.visible}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button onClick={viewModel.handleUpdate} variant='contained' sx={{ marginRight: 3.5 }}>
               Save Changes
-            </Button>
-            <Button type='reset' variant='outlined' color='secondary' onClick={() => setDate(null)}>
-              Reset
             </Button>
           </Grid>
         </Grid>

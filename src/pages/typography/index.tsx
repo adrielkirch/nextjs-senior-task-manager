@@ -5,7 +5,13 @@ import Grid from '@mui/material/Grid'
 import TypographyTexts from 'src/views/typography/TypographyTexts'
 import TypographyHeadings from 'src/views/typography/TypographyHeadings'
 
+// ** View Model
+import { useDataViewModel } from 'src/view_model/typographyViewModel';
+
 const TypographyPage = () => {
+  const viewModel = useDataViewModel();
+  console.log(viewModel)
+
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
