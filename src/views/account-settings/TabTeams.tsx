@@ -10,7 +10,7 @@ import CardContent from '@mui/material/CardContent'
 // ** Styled Components
 //import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
-import { Card, MenuItem, Select, TextField } from '@mui/material'
+import { Card, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material'
 import { useDataViewModel } from 'src/view_model/tabTeamsViewModel'
 import DefaultAlert from 'src/layouts/components/alert/Alert'
 import TableBasic, { Column } from '../tables/TableBasic'
@@ -48,6 +48,7 @@ const rows = [
     createdAt: '2024-05-23T11:01:53.419+00:00'
   }
 ]
+
 const Form = styled('form')(({ theme }) => ({
   maxWidth: 400,
   padding: theme.spacing(2),
@@ -62,64 +63,105 @@ const TabTeams = () => {
     <CardContent>
       <form>
         <Grid container spacing={7}>
-          <Grid item xs={12} sm={12}>
-            {/* <DatePickerWrapper>
-              <DatePicker
-                selected={date}
-                showYearDropdown
-                showMonthDropdown
-                id='account-settings-date'
-                placeholderText='MM-DD-YYYY'
-                customInput={<CustomInput />}
-                onChange={(date: Date) => setDate(date)}
-              />
-            </DatePickerWrapper> */}
-          </Grid>
+          <Grid item xs={12} sm={12}></Grid>
 
-          <Grid item xs={12}>
-            <Form onSubmit={e => e.preventDefault()}>
-              <Grid container spacing={3}>
-                <Grid item xs={12}>
-                  <TextField fullWidth label='E-mail' placeholder='e-mail' />
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControl fullWidth>
-                    <Select
-                      label='Role'
-                      defaultValue=''
-                      id='form-layouts-separator-select'
-                      labelId='form-layouts-separator-select-label'
-                    >
-                      <MenuItem value='admin'>admin</MenuItem>
-                      <MenuItem value='writer'>writer</MenuItem>
-                      <MenuItem value='guest'>guest</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
+          {viewModel.hasTeam ? (
+            <>
+              <Grid item xs={12}>
+                <Form onSubmit={e => e.preventDefault()}>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                      <TextField onChange={(event: React.ChangeEvent<HTMLInputElement>)=> {
+                        viewModel.setInviteTeamMemberFormData({
+                          ...viewModel.inviteTeamMemberFormData,
+                          email: event.target.value
+                        })
+                      }} fullWidth label='E-mail' placeholder='e-mail' />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <FormControl fullWidth>
+                        <Select
+                          label='Role'
+                          defaultValue=''
+                          id='form-layouts-separator-select'
+                          labelId='form-layouts-separator-select-label'
+                          onChange={(event: SelectChangeEvent<string>) => {
+                            viewModel.setInviteTeamMemberFormData({
+                              ...viewModel.inviteTeamMemberFormData,
+                              role: event.target.value as string
+                            });
+                          }}
+                        >
+                          <MenuItem value='admin'>admin</MenuItem>
+                          <MenuItem value='writer'>writer</MenuItem>
+                          <MenuItem value='guest'>guest</MenuItem>
+                        </Select>
+                      </FormControl>
+                    </Grid>
 
-                <Grid item xs={12}>
-                  <Button size='large' type='submit' variant='contained' sx={{ width: '100%' }}>
-                    Add team member &nbsp;
-                    <Icon className='ml-3' path={mdiPlus} size={1} />
-                  </Button>
-                </Grid>
+                    <Grid item xs={12}>
+                      <Button
+                        size='large'
+                        type='submit'
+                        variant='contained'
+                        sx={{ width: '100%' }}
+                        onClick={(event: React.FormEvent) => {
+                          viewModel.handleInviteTeam(event)
+                        }}
+                      >
+                        Add team member &nbsp;
+                        <Icon className='ml-3' path={mdiPlus} size={1} />
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Form>
               </Grid>
-            </Form>
-          </Grid>
 
-          <Grid item xs={12}>
-            <Card>
-              <TableBasic columns={columns} rows={rows} />
-            </Card>
-          </Grid>
-          <Grid item xs={12}>
-            <DefaultAlert
-              severity={viewModel.alert.severity}
-              onClose={() => viewModel.changeAlertVisibility(false)}
-              text={viewModel.alert.text}
-              visible={viewModel.alert.visible}
-            />
-          </Grid>
+              <Grid item xs={12}>
+                <Card>
+                  <TableBasic columns={columns} rows={rows} />
+                </Card>
+              </Grid>
+
+              <Grid item xs={12}>
+                <DefaultAlert
+                  severity={viewModel.alert.severity}
+                  onClose={() => viewModel.changeAlertVisibility(false)}
+                  text={viewModel.alert.text}
+                  visible={viewModel.alert.visible}
+                />
+              </Grid>
+            </>
+          ) : (
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <TextField
+                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                    viewModel.setAddTeamFormData({
+                      ...viewModel.addTeamFormData,
+                      name: event.target.value
+                    })
+                  }}
+                  fullWidth
+                  label='Team name'
+                  placeholder='Type a team name'
+                />
+              </FormControl>
+              <Grid item xs={12} mt={2}>
+                <Button
+                  size='large'
+                  type='submit'
+                  onClick={(event: React.FormEvent) => {
+                    viewModel.handleAddTeam(event)
+                  }}
+                  variant='contained'
+                >
+                  Create team &nbsp;
+                  <Icon className='ml-3' path={mdiPlus} size={1} />
+                </Button>
+              </Grid>
+            </Grid>
+          )}
         </Grid>
       </form>
     </CardContent>

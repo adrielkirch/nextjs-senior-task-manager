@@ -5,6 +5,7 @@ import { AlertProps } from 'src/layouts/components/alert/Alert';
 import { CreateRequestUserDto } from 'src/adapters/request/user.request.dto';
 import create from 'src/requests/profile/create.profile.request';
 
+
 export interface RegisterViewModelProps {
   isAuthenticated: boolean;
   isShowPassword: boolean;
@@ -75,10 +76,7 @@ export const useDataViewModel = (): RegisterViewModelProps => {
       const data = await register(registerData);
       if (!data) return
       console.log(data)
-
-
       handleCreateProfile(data.id);
-
       router.push('/pages/login');
     } catch (error: any) {
       console.error('Register failed top:', JSON.stringify(error));
@@ -107,6 +105,8 @@ export const useDataViewModel = (): RegisterViewModelProps => {
       console.error('Create profile failed top:', JSON.stringify(error));
     }
   };
+
+
 
   useEffect(() => {
     checkAuthentication();

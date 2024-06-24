@@ -1,9 +1,9 @@
 import ApiClient from "../httpClient";
 import apiConstants from "../../constants/api.constants";
 import { UserResponseDto } from "src/adapters/response/user.response.dto";
-import { ProfileResponseDto } from "src/adapters/response/profile.response.dto";
+import { CreateProfileRequestDto } from "src/adapters/request/profile.request.dto";
 
-const create = async (payload: ProfileResponseDto) => {
+const create = async (payload: CreateProfileRequestDto) => {
   const apiClient = ApiClient.getInstance();
 
   try {

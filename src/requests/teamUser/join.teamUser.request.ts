@@ -4,14 +4,14 @@ import { CreateRequestTeamDto } from "src/adapters/request/team.request.dto";
 import { TeamResponseDto } from "src/adapters/response/team.response.dto";
 
 
-const create = async (payload: CreateRequestTeamDto) => {
+const join = async (payload: CreateRequestTeamDto) => {
   const apiClient = ApiClient.getInstance();
 
   try {
-    return await apiClient.post<TeamResponseDto>(`${apiConstants.baseUrl}/teams/create`, payload);
+    return await apiClient.post<TeamResponseDto>(`${apiConstants.baseUrl}/teams/join`, payload);
   } catch (error) {
     throw error;
   }
 };
 
-export default create;
+export default join;

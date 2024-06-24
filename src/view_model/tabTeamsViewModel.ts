@@ -1,12 +1,11 @@
 import { useState, useEffect, ChangeEvent } from 'react';
 import { useRouter } from 'next/router';
-import me from 'src/requests/user/me.user.request';
-import { UserResponseDto } from 'src/adapters/response/user.response.dto';
-import update from 'src/requests/user/update.user.request';
 import { AlertProps } from 'src/layouts/components/alert/Alert';
 import findMyTeam from 'src/requests/team/me.profile.request';
 import create from 'src/requests/team/create.team.request';
-import { CreateRequestTeamDto } from 'src/adapters/request/team.request.dto';
+import { CreateRequestTeamDto, InviteRequestTeamDto } from 'src/adapters/request/team.request.dto';
+import { TeamResponseDto } from 'src/adapters/response/team.response.dto';
+import invite from 'src/requests/team/invite.team.request';
 
 export interface TeamsTabViewModelProps {
   isAuthenticated: boolean;
@@ -14,20 +13,34 @@ export interface TeamsTabViewModelProps {
   onChange: (file: ChangeEvent) => void;
   setImgSrc: (val: string) => void;
   imgSrc: string;
-  fetchAccount: () => void;
-  userData: UserResponseDto;
-  handleUpdate: () => void;
-  updateUserState: <T>(key: string, value: T) => void;
   alert: AlertProps,
   setAlert: (val: AlertProps) => void,
   changeAlertVisibility: (visible: boolean) => void;
-  handleAddTeam: () => void;
+  handleAddTeam: (event: React.FormEvent) => void;
+  hasTeam: boolean;
+  addTeamFormData: CreateRequestTeamDto
+  setAddTeamFormData: (value: CreateRequestTeamDto) => void
+  handleInviteTeam: (event: React.FormEvent) => void
+  setInviteTeamMemberFormData: (value: InviteRequestTeamDto) => void
+  inviteTeamMemberFormData: InviteRequestTeamDto
 }
 
 export const useDataViewModel = (): TeamsTabViewModelProps => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
+  const [hasTeam, setHasTeam] = useState<boolean>(false);
   const router = useRouter();
-  const [imgSrc, setImgSrc] = useState<string>('/images/avatars/avatar.png')
+  const [imgSrc, setImgSrc] = useState<string>('/images/avatars/avatar.png');
+  const [addTeamFormData, setAddTeamFormData] = useState<CreateRequestTeamDto>({
+    userId: localStorage.getItem('id') + '',
+    name: '',
+  });
+
+  const [inviteTeamMemberFormData, setInviteTeamMemberFormData] = useState<InviteRequestTeamDto>({
+    userId: localStorage.getItem('id') + '',
+    teamId: localStorage.getItem('teamId') + '',
+    email: '',
+    role: '',
+  });
 
   const [alert, setAlert] = useState<AlertProps>({
     severity: 'error',
@@ -36,16 +49,7 @@ export const useDataViewModel = (): TeamsTabViewModelProps => {
     visible: false,
   })
 
-  const [userData, setUserData] = useState<UserResponseDto>({
-    id: '',
-    name: '',
-    surname: '',
-    email: '',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    role: '',
-    phone: ''
-  })
+
 
   const changeAlertVisibility = (visible: boolean) => {
     setAlert({
@@ -74,17 +78,6 @@ export const useDataViewModel = (): TeamsTabViewModelProps => {
     }
   };
 
-  const updateUserState = <T>(key: string, value: T) => {
-    setUserData(prevUserData => ({
-      ...prevUserData,
-      [key]: value
-    }));
-  };
-
-  useEffect(() => {
-    fetchAccount();
-  }, []);
-
   useEffect(() => {
     checkAuthentication();
   }, []);
@@ -94,28 +87,12 @@ export const useDataViewModel = (): TeamsTabViewModelProps => {
   }, []);
 
 
-  const fetchAccount = async () => {
-    try {
-      changeAlertVisibility(false);
-      const data = await me();
-      if (data) setUserData(data);
-      localStorage.setItem('session', JSON.stringify(data));
-    } catch (error: any) {
-
-      setAlert({
-        ...alert,
-        text: error.message,
-        severity: 'error',
-        visible: true
-      })
-    }
-  };
-
   const fetchAdminTeam = async () => {
     try {
       changeAlertVisibility(false);
-      const data = await findMyTeam();
-      console.log(data)
+      const teamList: TeamResponseDto[] = await findMyTeam();
+      localStorage.setItem('teamId', teamList[0].id);
+      setHasTeam(true)
     } catch (error: any) {
       setAlert({
         ...alert,
@@ -123,29 +100,14 @@ export const useDataViewModel = (): TeamsTabViewModelProps => {
         severity: 'error',
         visible: true
       })
+      setHasTeam(false)
     }
   };
 
-  const handleAddTeam = async () => {
-    const payload = {
-      name: "Adriel",
-    } as CreateRequestTeamDto
-    await create(payload)
-  }
-
-  const handleUpdate = async () => {
+  const handleAddTeam = async (event: React.FormEvent) => {
+    event.preventDefault();
     try {
-      changeAlertVisibility(false);
-      const data = await update(userData);
-      if (data) setUserData(data);
-      localStorage.setItem('session', JSON.stringify(data));
-
-      setAlert({
-        ...alert,
-        text: 'Account updated successfully',
-        severity: 'success',
-        visible: true
-      })
+      await create(addTeamFormData)
     } catch (error: any) {
       console.log(error.message);
 
@@ -158,19 +120,39 @@ export const useDataViewModel = (): TeamsTabViewModelProps => {
     }
   }
 
+
+  const handleInviteTeam = async (event: React.FormEvent) => {
+    event.preventDefault();
+    try {
+      await invite(inviteTeamMemberFormData)
+    } catch (error: any) {
+      console.log(error.message);
+
+      setAlert({
+        ...alert,
+        text: error.message,
+        severity: 'error',
+        visible: true
+      })
+    }
+  }
+
+
   return {
     isAuthenticated,
+    addTeamFormData,
     checkAuthentication,
+    setAddTeamFormData,
+    inviteTeamMemberFormData,
     onChange,
+    setInviteTeamMemberFormData,
     setImgSrc,
     imgSrc,
-    fetchAccount,
-    handleUpdate,
-    updateUserState,
-    userData,
     alert,
     setAlert,
     changeAlertVisibility,
-    handleAddTeam
+    handleAddTeam,
+    handleInviteTeam,
+    hasTeam
   };
 };

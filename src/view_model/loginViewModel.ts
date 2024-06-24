@@ -83,6 +83,8 @@ export const useDataViewModel = (): LoginViewModelProps => {
       if (data) localStorage.setItem('token', data.token)
       else return
 
+      if (data) localStorage.setItem('id', data.id)
+
       router.push('/');
 
       // Wait for 1 second before making another request

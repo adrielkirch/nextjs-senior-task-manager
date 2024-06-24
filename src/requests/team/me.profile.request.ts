@@ -7,11 +7,14 @@ const findMyTeam = async () => {
   const apiClient = ApiClient.getInstance();
 
   try {
-    const url = `${apiConstants.baseUrl}/team/user`;
+    const url = `${apiConstants.baseUrl}/teams/mine`;
 
-    return await apiClient.get<TeamResponseDto>(url);
+    return await apiClient.get<TeamResponseDto[]>(url);
   } catch (error) {
-    console.error('Get me failed:', error);
+    if (error instanceof Error && (error as any).response && (error as any).response.data) {
+      throw (error as any).response.data;
+    }
+    throw error;
   }
 };
 
