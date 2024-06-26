@@ -1,14 +1,14 @@
 import ApiClient from "../httpClient";
 import apiConstants from "../../constants/api.constants";
-import { CreateRequestTeamDto } from "src/adapters/request/team.request.dto";
-import { TeamResponseDto } from "src/adapters/response/team.response.dto";
+import { JoinRequestTeamDto } from "src/adapters/request/teamUser.request.dto";
+import { TeamUserResponseDto } from "src/adapters/response/teamUser.response.dto";
 
 
-const join = async (payload: CreateRequestTeamDto) => {
+const join = async (payload: JoinRequestTeamDto) => {
   const apiClient = ApiClient.getInstance();
 
   try {
-    return await apiClient.post<TeamResponseDto>(`${apiConstants.baseUrl}/teams/join`, payload);
+    return await apiClient.post<TeamUserResponseDto>(`${apiConstants.baseUrl}/teams/join`, payload);
   } catch (error) {
     throw error;
   }

@@ -3,7 +3,7 @@ import apiConstants from "../../constants/api.constants";
 import { UpdateProfileRequestDto } from "src/adapters/request/profile.request.dto";
 import { ProfileResponseDto } from "src/adapters/response/profile.response.dto";
 
-const update = async (payload: UpdateProfileRequestDto) => {
+const update = async (payload: UpdateProfileRequestDto | null) => {
   const apiClient = ApiClient.getInstance();
 
   try {

@@ -8,3 +8,14 @@ export class DissociateRequestUserFromTeamDto {
     this.userId = userId;
   }
 }
+
+export class JoinRequestTeamDto {
+  constructor(
+    public token: string,
+    public userId: string,
+
+  ) {
+    this.token = token;
+    this.userId = userId;
+  }
+}

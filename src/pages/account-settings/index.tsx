@@ -1,5 +1,5 @@
 // ** React Imports
-import { SyntheticEvent, useState } from 'react'
+import { SyntheticEvent, useEffect, useState } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -9,8 +9,8 @@ import TabPanel from '@mui/lab/TabPanel'
 import TabContext from '@mui/lab/TabContext'
 import { styled } from '@mui/material/styles'
 import MuiTab, { TabProps } from '@mui/material/Tab'
-import Icon from '@mdi/react';
-import { mdiAccountMultipleOutline } from '@mdi/js';
+import Icon from '@mdi/react'
+import { mdiAccountMultipleOutline } from '@mdi/js'
 
 // ** Icons Imports
 import AccountOutline from 'mdi-material-ui/AccountOutline'
@@ -26,6 +26,7 @@ import TabSecurity from 'src/views/account-settings/TabSecurity'
 import 'react-datepicker/dist/react-datepicker.css'
 import { useDataViewModel } from 'src/view_model/accountSettingsViewModel'
 import TabTeams from 'src/views/account-settings/TabTeams'
+import { ProfileResponseDto } from 'src/adapters/response/profile.response.dto'
 
 const Tab = styled(MuiTab)<TabProps>(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
@@ -48,11 +49,26 @@ const TabName = styled('span')(({ theme }) => ({
 const AccountSettings = () => {
   // ** State
   const [value, setValue] = useState<string>('account')
+  const [role, setRole] = useState<string | null>(localStorage.getItem('role'))
   const viewModel = useDataViewModel()
   console.log(viewModel)
 
+  useEffect(()=> {
+    setRole(localStorage.getItem('role'));
+  },[])
+
   const handleChange = (event: SyntheticEvent, newValue: string) => {
     setValue(newValue)
+  }
+  const initialProfileData: ProfileResponseDto = {
+    id: '',
+    notifications: [],
+    gender: '',
+    image: '',
+    userId: '',
+    biography:'',
+    createdAt: new Date(),
+    updatedAt: new Date()
   }
 
   return (
@@ -91,16 +107,17 @@ const AccountSettings = () => {
               </Box>
             }
           />
-
-          <Tab
-            value='team'
-            label={
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Icon path={mdiAccountMultipleOutline} size={1} />
-                <TabName>Team</TabName>
-              </Box>
-            }
-          />
+          {role === 'super admin' && (
+            <Tab
+              value='team'
+              label={
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Icon path={mdiAccountMultipleOutline} size={1} />
+                  <TabName>Team</TabName>
+                </Box>
+              }
+            />
+          )}
         </TabList>
 
         <TabPanel sx={{ p: 0 }} value='account'>
@@ -110,11 +127,14 @@ const AccountSettings = () => {
           <TabSecurity />
         </TabPanel>
         <TabPanel sx={{ p: 0 }} value='info'>
-          <TabInfo />
+          <TabInfo initialProfileData={initialProfileData} />
         </TabPanel>
-        <TabPanel sx={{ p: 0 }} value='team'>
-          <TabTeams />
-        </TabPanel>
+
+        {role === 'super admin' && (
+          <TabPanel sx={{ p: 0 }} value='team'>
+            <TabTeams />
+          </TabPanel>
+        )}
       </TabContext>
     </Card>
   )

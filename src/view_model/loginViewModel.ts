@@ -81,9 +81,9 @@ export const useDataViewModel = (): LoginViewModelProps => {
       changeAlertVisibility(false)
       const data = await login(loginData);
       if (data) localStorage.setItem('token', data.token)
-      else return
 
       if (data) localStorage.setItem('id', data.id)
+      if (data) localStorage.setItem('role', data.role)
 
       router.push('/');
 

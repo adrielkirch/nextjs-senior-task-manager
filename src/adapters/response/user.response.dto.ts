@@ -1,5 +1,11 @@
 export class LoginResponseDto {
-  constructor(public id: string, public token: string) {}
+
+  constructor(public id: string, public token: string, public role:string) {
+    this.id = id;
+    this.token = token;
+    this.role = role;
+
+  }
 }
 
 export class UserResponseDto {

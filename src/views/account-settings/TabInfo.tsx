@@ -20,12 +20,8 @@ import { styled } from '@mui/material/styles'
 //import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
 import { Checkbox, FormGroup, Typography } from '@mui/material'
-import { useDataViewModel } from 'src/view_model/tabInfoViewModel'
+import { InfoTabViewModelProps, useDataViewModel } from 'src/view_model/tabInfoViewModel'
 import DefaultAlert from 'src/layouts/components/alert/Alert'
-
-// const CustomInput = forwardRef((props, ref) => {
-//   return <TextField inputRef={ref} label='Birth Date' fullWidth {...props} />
-// })
 
 const ImgStyled = styled('img')(({ theme }) => ({
   width: 120,
@@ -49,9 +45,12 @@ const ResetButtonStyled = styled(Button)<ButtonProps>(({ theme }) => ({
   }
 }))
 
-const TabInfo = () => {
-  const viewModel = useDataViewModel()
-  console.log(viewModel)
+const TabInfo = ({ initialProfileData }: { initialProfileData: InfoTabViewModelProps['profileData'] }) => {
+  const viewModel = useDataViewModel({ initialProfileData })
+
+  if (!viewModel.profileData || !viewModel.isAuthenticated) {
+    return <div>Loading...</div>
+  }
 
   return (
     <CardContent>
@@ -150,7 +149,7 @@ const TabInfo = () => {
                 <FormControlLabel
                   control={
                     <Checkbox
-                    checked={viewModel.profileData.notifications.includes('notifications')}
+                      checked={viewModel.profileData.notifications.includes('notifications')}
                       onChange={viewModel.handleCheckboxChange}
                       value='notifications'
                     />

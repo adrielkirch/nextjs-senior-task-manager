@@ -27,7 +27,7 @@ export const useDataViewModel = (): RegisterViewModelProps => {
     surname: '',
     email: '',
     password: '',
-    role: 'admin',
+    role: 'super admin',
     phone: '',
   })
 

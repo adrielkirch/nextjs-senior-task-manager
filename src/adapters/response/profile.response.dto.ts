@@ -20,7 +20,7 @@ export class ProfileResponseDto {
 
   ) {
     this.id = id;
-    this.notifications = notifications;
+    this.notifications = [];
     this.gender = gender;
     this.image = image;
     this.userId = userId;
